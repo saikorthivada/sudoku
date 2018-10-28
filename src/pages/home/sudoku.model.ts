@@ -1,3 +1,24 @@
+export class SudokuLevels {
+    levels = [
+        {
+          id: 0,
+          displayValue: 'Level 0'
+        },
+        {
+          id: 1,
+          displayValue: 'Level 1'
+        },
+        {
+          id: 2,
+          displayValue: 'Level 2'
+        },
+        {
+          id: 3,
+          displayValue: 'Level 3'
+        }
+      ];
+}
+
 export class SudokuModel {
     arr = [
         {

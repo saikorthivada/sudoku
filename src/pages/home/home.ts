@@ -1,35 +1,30 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
-import { SudokuModel } from './sudoku.model';
+import { SudokuModel, SudokuLevels } from './sudoku.model';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  arr = []
+  arr = [];
   arr1 = [];
   numberOfRows: number;
   numberOfColumns: number;
+  levels = [];
+  selectedLevel = 0;
+  randomData: any[] = [];
+
   constructor(public navCtrl: NavController, private alertCtrl: AlertController) {
-    let randomData =  new SudokuModel().arr;
-    let index = randomData.findIndex(x => x.id === 0);
-    if (index !== -1) {
-      this.arr = randomData[index].data;
-      this.numberOfRows = this.arr.length;
-      this.numberOfColumns = this.arr.length;
-      console.log(this.numberOfColumns);
-      this.arr1 = this.getDeepCloneArrData(this.arr);
-    }
-    
-    // let index= Math.floor(Math.random() * (10 - 0) + 0);
+    let dataRef = new SudokuModel();
+    let levelRef = new SudokuLevels();
+    this.randomData = dataRef.arr;
+    this.levels = levelRef.levels;
+    this.changeGrid();
   }
 
-  initToDefaultArr() {
-    this.arr = this.getDeepCloneArrData(this.arr1);
-  }
-
-  totalArray() {
+  // Check weather user filled all boxes or not
+  check() {
     let isFilled = true;
     let dummyArr = this.getDeepCloneArrData(this.arr);
     for (let i = 0; i < this.numberOfRows; i++) {
@@ -53,6 +48,7 @@ export class HomePage {
     }
   }
 
+  // Validates weather suduko is valid or not 
   finalResult() {
     let isValidSudoko = this.validateMatrix(this.getDeepCloneArrData(this.arr));
     if (isValidSudoko === true) {
@@ -60,7 +56,7 @@ export class HomePage {
       isValidSudoko = this.validateMatrix(this.getDeepCloneArrData(transposeArr));
       if (isValidSudoko === true) {
         this.showErrorMessage('Success', 'You won the Game', true);
-        
+
       } else {
         this.showErrorMessage('Error', 'You lost the game. Please try again', true);
       }
@@ -69,11 +65,12 @@ export class HomePage {
     }
   }
 
-
+  // Converting into deep clone array's
   getDeepCloneArrData(originalData) {
     return JSON.parse(JSON.stringify(originalData));
   }
 
+  // Validating sudoku matrix
   validateMatrix(validateArr) {
     let isValidSudok = false;
     for (let i = 0; i < validateArr.length; i++) {
@@ -87,6 +84,7 @@ export class HomePage {
     return isValidSudok;
   }
 
+  // Transposing the matrix
   transposeMatrix(arr) {
     for (var i = 0; i < arr.length; i++) {
       for (var j = 0; j < i; j++) {
@@ -98,11 +96,11 @@ export class HomePage {
     }
     return arr;
   }
-
+  // Error or Success Message Alert
   showErrorMessage(title: string, message: string, reassign: boolean) {
     let alert = this.alertCtrl.create({
       title: title,
-      subTitle: message,      
+      subTitle: message,
       buttons: [
         {
           text: 'Ok',
@@ -118,6 +116,7 @@ export class HomePage {
     alert.present();
   }
 
+  // Get weather arraay has duplicate values or not
   getIsDuplicate(arr) {
     for (var i = 0; i <= arr.length; i++) {
       for (var j = i; j <= arr.length; j++) {
@@ -127,5 +126,22 @@ export class HomePage {
       }
     }
     return false;
+  }
+
+  // When user changes the level
+  changeGrid() {
+    let index = this.randomData.findIndex(x => x.id === this.selectedLevel);
+    if (index !== -1) {
+      this.arr = this.randomData[index].data;
+      this.numberOfRows = this.arr.length;
+      this.numberOfColumns = this.arr.length;
+      this.arr1 = this.getDeepCloneArrData(this.arr);
+    }
+  }
+
+  // When user clicks on restart button
+  restart() {
+    this.selectedLevel = 0;
+    this.changeGrid();
   }
 }

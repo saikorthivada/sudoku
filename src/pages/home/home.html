@@ -7,6 +7,16 @@
 </ion-header>
 
 <ion-content padding>
+  <div text-center>
+      <ion-item>
+          <ion-label>Level</ion-label>
+          <ion-select [(ngModel)]="selectedLevel" (ngModelChange)="changeGrid()">
+            <ng-container *ngFor="let level of levels">
+            <ion-option [value]="level.id">{{level.displayValue}}</ion-option>
+          </ng-container>
+          </ion-select>
+        </ion-item>
+  </div>
   <ion-grid>
     <ng-container *ngFor="let row of arr; let rowIndex = index">
       <ion-row>
@@ -25,7 +35,7 @@
     </ng-container>
   </ion-grid>
   <div text-center>
-    <button type="submit" ion-button round (click)="totalArray()">Result</button>
-    <button type="submit" ion-button round (click)="initToDefaultArr()">Restart</button>
+    <button type="submit" ion-button round (click)="check()">Result</button>
+    <button type="submit" ion-button round (click)="restart()">Restart</button>
   </div>
 </ion-content>
