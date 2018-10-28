@@ -1,14 +1,31 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      Ionic Blank
+    <ion-title text-center>
+      Sudoku
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-grid>
+    <ng-container *ngFor="let row of arr; let rowIndex = index">
+      <ion-row>
+        <ion-col col-1>
+          <!-- for empty space -->
+        </ion-col>
+        <ng-container *ngFor="let col of row; let colIndex = index">
+          <ion-col col-1 class="border border-dotted" [ngClass]="(col !== '' ? 'filled' : 'unfilled')">
+            <div>
+              <input [value]="col" only-numbers maxlength="1" id="{{rowIndex.toString() + colIndex.toString()}}" [ngClass]="(col !== '' ? 'filled' : 'unfilled')"
+                [readonly]="(col !== '')" />
+            </div>
+          </ion-col>
+        </ng-container>
+      </ion-row>
+    </ng-container>
+  </ion-grid>
+  <div text-center>
+    <button type="submit" ion-button round (click)="totalArray()">Result</button>
+    <button type="submit" ion-button round (click)="initToDefaultArr()">Restart</button>
+  </div>
 </ion-content>

@@ -1,3 +1,21 @@
 page-home {
+    ion-col.border {
+        text-align: center;
+        padding: 0px;
+        border: 1px solid black;
+    }
 
+    input {
+        width: 20px;
+        border: 0px solid white;
+    }
+    .filled {
+        background-color: #E44C4C;
+    }
+    .unfilled {
+        background-color: #CCFFCC;
+    }
+    .alert-Success {
+        color: green;
+    }
 }
